@@ -1,15 +1,38 @@
-name: Cypress Tests
+name: Cypress Multi-Browser Tests
 
-on: push
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
 
 jobs:
-  cypress-run:
-    runs-on: ubuntu-24.04
+  cypress-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browsers: [chrome, electron]
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Create Reports Folder
+        run: mkdir -p cypress/reports/${{ matrix.browsers }}
+
+      - name: Cypress run in ${{ matrix.browsers }}
         uses: cypress-io/github-action@v6
-        
+        with:
+          browser: ${{ matrix.browsers }}
+          command: npx cypress run --browser ${{ matrix.browsers }} --reporter mochawesome --reporter-options reportDir=cypress/reports/${{ matrix.browsers }}
+
+      - name: Merge Mochawesome Reports
+        run: npx mochawesome-merge cypress/reports/${{ matrix.browsers }}/*.json > cypress/reports/${{ matrix.browsers }}/merged-report.json
