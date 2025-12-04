@@ -1,38 +1,35 @@
-name: Cypress Multi-Browser Tests
+name: Cypress Tests
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
+on: 
+push: 
+workflow_dispatch:
 
 jobs:
-  cypress-tests:
-    runs-on: ubuntu-latest
-
+  cypress-run:
+    runs-on: ubuntu-24.04
     strategy:
-      matrix:
-        browsers: [chrome, electron]
-
+          fail-fast: false
+          matrix:
+              browsers:[chrome, firefox, edge]
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Create Reports Folder
-        run: mkdir -p cypress/reports/${{ matrix.browsers }}
-
-      - name: Cypress run in ${{ matrix.browsers }}
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          browser: ${{ matrix.browsers }}
-          command: npx cypress run --browser ${{ matrix.browsers }} --reporter mochawesome --reporter-options reportDir=cypress/reports/${{ matrix.browsers }}
+            browsers: ${{matrix.gebrowsers}}
+            command: npx cypress run -browser ${{matrix.browsers}} -- reporter mochawesome --reporter-options reportDir=cypress/reports/${{matrix.browsers}}
+        
+-name: Merge mochawesome Reports
+run: npx Merge cypress/reports/${{matrix.browsers}}/*.json > cypress/reports/${{matrix.browsers}}/Merged-reports.json
 
-      - name: Merge Mochawesome Reports
-        run: npx mochawesome-merge cypress/reports/${{ matrix.browsers }}/*.json > cypress/reports/${{ matrix.browsers }}/merged-report.json
+-name: Generate HTML Reports
+run: npx Merge cypress/reports/${{matrix.browsers}}/Merged-reports.json --reportDir cypress/reports/${{matrix.browsers}} -f "${{matrix.browsers}}"-report.HTML
+
+-name: upload HTML Reports
+uses: actions/upload-artifact@v4
+with:
+      name: cypress HTML Report ${{matrix.browsers}}
+      path: cypress/reports/${{matrix.browsers}}

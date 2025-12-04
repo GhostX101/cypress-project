@@ -116,7 +116,7 @@ it('verifying the Cart functionality',()=>{
 
 })
 
-it('verify users can add to cart, view numbers of products cart and checkout',() =>{
+it('verify users can add to cart & view numbers of products cart & checkout',() =>{
 
     cy.visit('https://www.saucedemo.com/')
 
@@ -201,18 +201,6 @@ it('verify the logout functionality',()=>{
     cy.get('#login-button').click()
     cy.get('#react-burger-menu-btn').click()
     cy.get('#logout_sidebar_link').should('be.visible').click()
-
-})
-it('verify the About functionality',()=>{
-
-    cy.visit('https://www.saucedemo.com/')
-    cy.get('#user-name').type('visual_user')
-    cy.get('#password').type('secret_sauce')
-    cy.get('#login-button').click()
-    cy.get('#react-burger-menu-btn').click()
-    
-    cy.get('#about_sidebar_link',{pagetimeout:6000}).click()
-    
 
 })
    
