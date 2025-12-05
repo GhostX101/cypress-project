@@ -162,7 +162,7 @@ it('verify signup page functionality with existin user Login', ()=>{
 
 })
 
-it('verify user can signup with special characters', () => {
+it('verify user can not signup with special characters', () => {
 
   // Auto-generated username & password (mixed special characters too)
   const randomUser = "User" + Date.now() + "_*&%";
@@ -190,9 +190,231 @@ it('verify user can signup with special characters', () => {
     expect(text).to.include('Sign up successful');
 
 });
+
+})
+it('verify user can signup with special characters', () => {
+
+  // Auto-generated username & password (mixed special characters too)
+  const randomUser = "User" + Date.now() + "_*&%";
+  const randomPass = "Pass" + Date.now() + "_)(%$#@!";
+
+  cy.get('#signin2').should('be.visible').click();
+  cy.wait(1000);
+
+  // Enter generated data
+  cy.get('#sign-username')
+    .should('be.visible')
+    .type(randomUser);
+
+  cy.get('#sign-password')
+    .should('be.visible')
+    .type(randomPass);
+
+  // Submit form
+  cy.get("button[onclick='register()']")
+    .should('be.visible')
+    .click();
+
+  // Assert success message
+  cy.on('window:alert', (text) => {
+    expect(text).to.include('special character not allowed');
+
+});
+
+})
+
+it('verifying Cart functionality from homepage', ()=>{
+
+  // verify cart is visible
+  cy.get('#cartur').contains('Cart')
+  .should('be.visible').click()
+
+
+})
+
+it('verify user can add to product to cart from homepage', () =>{
+cy.get('body > div:nth-child(6) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > h4:nth-child(1) > a:nth-child(1)')
+.click()
+cy.wait(5000)
+cy.contains('Samsung galaxy s6')
+cy.get('.btn.btn-success.btn-lg').click()
+cy.on('window:alert',(text)=>{
+  expect(text).to.include('Product added')
+})
+
+})
+
+it('verify user can view product in cart',()=>{
+cy.get('#cartur').contains('Cart')
+  .should('be.visible').click()
+  //verify product is visible 
+cy.get("div[class='col-lg-8'] h2").should('be.visible')
+
+cy.get("div[class='col-lg-1'] h2").should('be.visible')
+
+})
+it('verifying the if price| productName match description in the cart list', ()=>{
+          cy.get('body > div:nth-child(6) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > h4:nth-child(1) > a:nth-child(1)')
+          .click()
+
+          cy.wait(5000)
+
+          cy.contains('Samsung galaxy s6')
+
+          cy.get('.btn.btn-success.btn-lg').click()
+/// Window alert
+          cy.on('window:alert',(text)=>{
+
+          expect(text).to.include('Product added')
+})  
+      ///click on cart
+        cy.get('#cartur').click()
+
+        cy.wait(8000)
+
+        //verfying the price on the Cart table 
+        cy.get('table>tbody>tr>td:nth-child(3)').contains('360')
+
+      //verifying the Title of the product  
+       cy.get('table>tbody>tr>td:nth-child(2)').contains('Samsung galaxy s6')
+
+       //verify the place order button is visible 
+       cy.get('.btn.btn-success').should('be.visible').click()
+})
+
+it('verify user can place order',()=>{
+
+          cy.get('body > div:nth-child(6) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > h4:nth-child(1) > a:nth-child(1)')
+
+          .click()
+
+          cy.wait(6000)
+
+          cy.contains('Samsung galaxy s6')
+
+          cy.get('.btn.btn-success.btn-lg').click()
+/// Window alert
+          cy.on('window:alert',(text)=>{
+
+          expect(text).to.include('Product added')
+})  
+      ///click on cart
+        cy.get('#cartur').click()
+
+        cy.wait(5000)
+
+        //verfying the price on the Cart table 
+        cy.get('table>tbody>tr>td:nth-child(3)').contains('360')
+
+      //verifying the Title of the product  
+       cy.get('table>tbody>tr>td:nth-child(2)').contains('Samsung galaxy s6')
+
+       //verify the place order button is visible 
+       cy.get('.btn.btn-success').should('be.visible').click()
+
+       cy.get('#name').should('be.visible').type('Solotesting')
+       
+       cy.get('#country').should('be.visible').type('Nigeria')
+
+       cy.get('#city').should('be.visible').type('Lagos')
+
+       cy.get('#card').should('be.visible').type('123456789987')
+
+       cy.get('#month').should('be.visible').type('August')
+
+       cy.get('#year').should('be.visible').type('2025')
+      
+       cy.get("button[onclick='purchaseOrder()']").should('be.visible').click()
+
+       //alert for successful purchase 
+
+       cy.on('window:alert', (text)=>{
+        expect(text).to.include('Thank you for your purchase!')
+       })
+})
+
+it.only('verify user can not place order with empty cand and payament information',()=>{
+          
+        cy.get('#cartur').click()
+
+        cy.wait(5000)
+
+       //verify the place order button is visible 
+       cy.get('.btn.btn-success').should('be.visible').click()
+     
+       cy.get("button[onclick='purchaseOrder()']").click()
+
+       //alert for successful purchase 
+
+       cy.on('window:alert', (text)=>{
+        expect(text).to.include('Please fill out Name and Creditcard.')
+       })
 })
 
 
+it('verifying the contact fuctionality',()=>{
+
+  cy.get("a[data-target='#exampleModal']").should('be.visible')
+  
+  cy.contains('Contact')
+
+})
+it('verify user can contact the webpage',()=>{
+
+  cy.get("a[data-target='#exampleModal']").click()
+
+  cy.get('#recipient-email').should('be.visible').type('solotest@gmail.com')
+  cy.get('#recipient-email').should('be.visible').type('solotest')
+  cy.get('#message-text').should('be.visible').type('Thank you')
+  cy.get("button[onclick='send()']").click()
+  ///verifying the contact gives a successful message
+  cy.on('window:alert', (text)=>{
+    expect(text).to.include('Thanks for the message!!')
+  })
+
+})
+
+it('verify the contact field with blank', ()=>{
+
+            cy.get("a[data-target='#exampleModal']").click()
+            cy.get("button[onclick='send()']").click()
+
+      cy.on('window:alert', (text)=>{
+
+    expect(text).should.not.include('Thanks for the message!!')
+
+  })
+
+
+})
+
+it('verifying the About Us functionality', ()=>{
+
+    cy.get("a[data-target='#videoModal']").should('be.visible')
+    .click()
+    cy.contains('About Us')
+})
+
+it('verify the play button functionality|About us', ()=>{
+    cy.get("a[data-target='#videoModal']").click()
+
+    cy.get("button[title='Play Video'] span[class='vjs-icon-placeholder']")
+
+})
+
+it('verify the website footer', ()=>{
+
+  cy.get('.m-0.text-center.text-white').should('be.visible')
+  cy.contains('Copyright © Product Store')
+
+  cy.get('#footc').should('be.visible')
+  cy.contains('Get in Touch').should('be.visible')
+  cy.contains('We believe performance needs to be validated at every stage of the software development cycle and our open source compatible, massively scalable platform makes that a reality.')
+  .should('be.visible')
+  cy.contains('Address: 2390 El Camino Real').should('be.visible')
+  cy.contains('Phone: +440 123456').should('be.visible')
+  cy.contains('Email: demo@blazemeter.com').should('be.visible')
+})
 })
 
     

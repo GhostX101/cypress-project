@@ -1,4 +1,4 @@
-describe('automation testing Saucedemo.com', () =>{
+describe('automation testing on Saucedemo.com', () =>{
 
     
 it('Verifying the website Url and Title', ()=>{
@@ -200,8 +200,11 @@ it('verify the logout functionality',()=>{
     cy.get('#password').type('secret_sauce')
     cy.get('#login-button').click()
     cy.get('#react-burger-menu-btn').click()
+    cy.wait(2000)
     cy.get('#logout_sidebar_link').should('be.visible').click()
 
 })
+
+
    
 })
