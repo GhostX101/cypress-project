@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browsers: [chrome, firefox, edge]
+        browser: [chrome, firefox, edge]
 
     steps:
       # Step 1: Checkout the repo
@@ -31,20 +31,20 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          browsers: ${{ matrix.browsers }}
-          command: npx cypress run --browser ${{ matrix.browsers }} --reporter mochawesome --reporter-options reportDir=cypress/reports/${{ matrix.browsers }},overwrite=false,html=false,json=true
+          browser: ${{ matrix.browser }}   # ✔ FIXED
+          command: npx cypress run --browser ${{ matrix.browser }} --reporter mochawesome --reporter-options reportDir=cypress/reports/${{ matrix.browser }},overwrite=false,html=false,json=true
 
       # Step 5: Merge Mochawesome reports
       - name: Merge Mochawesome Reports
-        run: npx mochawesome-merge cypress/reports/${{ matrix.browsers }}/*.json > cypress/reports/${{ matrix.browsers }}/merged-report.json
+        run: npx mochawesome-merge cypress/reports/${{ matrix.browser }}/*.json > cypress/reports/${{ matrix.browser }}/merged-report.json
 
       # Step 6: Generate HTML report
       - name: Generate HTML Report
-        run: npx marge cypress/reports/${{ matrix.browsers }}/merged-report.json --reportDir cypress/reports/${{ matrix.browsers }} -f "${{ matrix.browsers }}-report.html"
+        run: npx marge cypress/reports/${{ matrix.browser }}/merged-report.json --reportDir cypress/reports/${{ matrix.browser }} -f "${{ matrix.browser }}-report.html"
 
       # Step 7: Upload HTML report
       - name: Upload HTML Report
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-html-report-${{ matrix.browsers }}
-          path: cypress/reports/${{ matrix.browsers }}
+          name: cypress-html-report-${{ matrix.browser }}
+          path: cypress/reports/${{ matrix.browser }}
