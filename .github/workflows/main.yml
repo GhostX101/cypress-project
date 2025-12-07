@@ -27,11 +27,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Run Cypress tests
+      # Step 4: Run Cypress tests (NO WARNINGS)
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          browser: ${{ matrix.browser }}   # ✔ FIXED
+          # Only use command — this avoids warnings
           command: npx cypress run --browser ${{ matrix.browser }} --reporter mochawesome --reporter-options reportDir=cypress/reports/${{ matrix.browser }},overwrite=false,html=false,json=true
 
       # Step 5: Merge Mochawesome reports
