@@ -333,7 +333,7 @@ it('verify user can place order',()=>{
        })
 })
 
-it.only('verify user can not place order with empty cand and payament information',()=>{
+it('verify user can not place order with empty cand and payament information',()=>{
           
         cy.get('#cartur').click()
 
