@@ -89,7 +89,9 @@ it('verify login Functionality with valid input', () =>{
 it('verify login Functionality with invalid input', () =>{
 
        cy.get('.nav-link#login2',).click()
+
        cy.wait(2000)
+       
        cy.get('#loginusername').type('Ghost1011')
     
        cy.get('#loginpassword').type('Ghost101')
