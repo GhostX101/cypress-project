@@ -1,16 +1,19 @@
 import LoginPage from "../../page-objects/loginPage"
 import logOutPage from "../../page-objects/logOutPage"
+import ProductPage from "../../page-objects/productPage"
+import checkoutPage from "../../page-objects/checkoutPage"
 
 const ln = new LoginPage() /// created for all login test cases 
-const Lo = new logOutPage()
+const Lg = new logOutPage()
+const Pr = new ProductPage()
+const Ck = new checkoutPage()
 
 describe('automation testing on Saucedemo.com', () =>{
    
-it.skip('Verifying the website Url and Title', ()=>{
+it('Verifying the website Url and Title', ()=>{
 
     cy.visit("https://www.saucedemo.com/")
-    cy.url().should('eq', 'https://www.saucedemo.com/')
-    cy.title().should('eq', 'Swag Labs')
+        cy.title().should('eq', 'Swag Labs')
     cy.contains('Swag Labs').should('be.visible')
 
 })
@@ -36,9 +39,6 @@ it('login with empty field', ()=>{
     ln.clickSubmit()
     ln.emptyInput()
     
-
-
-
 
 })
 
@@ -79,11 +79,10 @@ it('verify users can add to cart & view numbers of products cart & checkout',() 
     ln.setUsername('visual_user')
     ln.setPassword('secret_sauce')
     ln.clickSubmit()
-    ln.Addcart$viewcart()
-
-
-    
-
+    Pr.addProduct1()
+    Pr.addProduct2()
+    Pr.cartIcon()
+ 
 })
 
 it('verify user can fill payment information', ()=>{
@@ -91,7 +90,17 @@ it('verify user can fill payment information', ()=>{
     ln.setUsername('visual_user')
     ln.setPassword('secret_sauce')
     ln.clickSubmit()
-    ln.paymentform()
+    Pr.addProduct1()
+    Pr.addProduct2()
+    Pr.cartIcon()
+    Ck.checkIcon()
+    Ck.setfirstname('solomon')
+    Ck.setLastname('house')
+    Ck.setPostcode('10001')
+    Ck.setContiune()
+    Ck.expectSummary()
+    Ck.expectPayInfo
+    Ck.Finishbtn()
     
 })
  
@@ -110,7 +119,7 @@ it('verify the logout functionality',()=>{
     ln.setUsername('visual_user')
     ln.setPassword('secret_sauce')
     ln.clickSubmit()
-    Lo.logOutPage()
+    Lg.logOutPage()
     cy.wait(2000)
     
 })
