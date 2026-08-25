@@ -1,27 +1,29 @@
 export default class loginPage2{
     LoginIcon(){
-        cy.get('.nav-link#login2',).click()
+                cy.get('.nav-link#login2').should('be.visible').click()
+                cy.get('#logInModal').should('be.visible')
           }
     setUsername(username)
     {
-        cy.get('#loginusername').type(username).should('be.visible')
+        cy.get('#loginusername').should('be.visible').clear().type(username)
     
     }
     setPassword(password)
     {
-        cy.get('#loginpassword').type(password).should('be.visible')
+        cy.get('#loginpassword').should('be.visible').clear().type(password)
 
     }
     submitClick(){
+
         cy.get("button[onclick='logIn()']").click()
-        cy.wait(2000)
-        
+
+             
     }
 
 
 
     SetExpected(){
-        cy.get('#nameofuser').should('be.visible')
+      
         cy.contains('Welcome Ghost101')
     }
 

@@ -3,7 +3,7 @@ export default class Pageproduct{
     productList()
     {
         // Verify  product card is displayed
-      cy.get("div.card.h-100").should("have.length.greaterThan", 7);
+      cy.get("div.card.h-100", { timeout: 15000 }).should("have.length.greaterThan", 7);
 
       // //verify the product match its product item name
       cy.get("div.card.h-100").contains('Samsung galaxy s6').should('be.visible')

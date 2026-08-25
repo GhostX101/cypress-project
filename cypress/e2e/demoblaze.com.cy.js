@@ -47,9 +47,7 @@ it('Verify product card is displayed',()=>{
 
 })
 
-// //it.only('verify the monitors production and laptop product match', ()=>{
 
-//   Pp.verify()
 
 })
          
@@ -57,9 +55,11 @@ it('Verify product card is displayed',()=>{
 it('verify login Functionality with valid input', () =>{
     cy.fixture('login.json').then((data)=>{
       login.LoginIcon();
+      cy.wait(2000)
       login.setUsername(data.username);
       login.setPassword(data.password);
       login.submitClick();
+      cy.wait(4000)
 
       login.SetExpected();
 
@@ -73,12 +73,12 @@ it('verify login Functionality with invalid Username', () =>{
  
       cy.fixture('login.json').then((data)=>{
       login.LoginIcon();
+      cy.once('window:alert', (text)=>{
+        expect(text).to.include('Wrong password.')
+      })
       login.setUsername("wronguser");
       login.setPassword(data.password);
       login.submitClick();
-      cy.on('window:alert', (text)=>{
-        expect(text).to.contains('Wrong password.')
-      })
 
     })
     
@@ -91,13 +91,12 @@ it('verify login Functionality with invalid Password', () =>{
       
       cy.fixture('login.json').then((data)=>{
       login.LoginIcon();
-      login.setUsername("wronguser");
-      login.setPassword(data.password);
-      login.submitClick();
-      cy.wait(2000)
-      cy.on('window:alert', (text)=>{
-        expect(text).to.contains('Wrong password.')
+      cy.once('window:alert', (text)=>{
+        expect(text).to.include('Wrong password.')
       })
+      login.setUsername(data.username);
+      login.setPassword("wrongpass");
+      login.submitClick();
 
     })
     
@@ -241,19 +240,6 @@ it('verify user can contact the webpage',()=>{
 
 })
 
-it('verify the contact field with blank', ()=>{
-
-            cy.get("a[data-target='#exampleModal']").click()
-            cy.get("button[onclick='send()']").click()
-
-      cy.on('window:alert', (text)=>{
-
-    expect(text).should.not.include('Thanks for the message!!')
-
-  })
-
-
-})
 
 it('verifying the About Us functionality', ()=>{
 

@@ -10,12 +10,12 @@ checkIcon()
         cy.get('#first-name').type(firstname)
     }
     setLastname(lastname){
-        cy.get('#last-name').type('lastname')
+        cy.get('#last-name').type(lastname)
 
     }
     setPostcode(postalcode)
     {
-        cy.get('#postal-code').type('postalcode')
+        cy.get('#postal-code').type(postalcode)
     }
 
     setContiune()
@@ -30,7 +30,7 @@ checkIcon()
 
     expectPayInfo()
     {
-        cy.get("div[data-test='payment-info-label]").should('be.visible')
+        cy.get("[data-test='payment-info-label']").should('be.visible')
 
     }
 

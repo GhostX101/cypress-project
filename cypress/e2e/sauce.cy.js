@@ -12,11 +12,14 @@ describe('automation testing on Saucedemo.com', () =>{
    
 it('Verifying the website Url and Title', ()=>{
 
-    cy.visit("https://www.saucedemo.com/")
-        cy.title().should('eq', 'Swag Labs')
+    cy.visit("http://www.saucedemo.com")
+
+    cy.title().should('eq', 'Swag Labs')
+
     cy.contains('Swag Labs').should('be.visible')
 
 })
+
 it("login with invalid input", ()=>{
     ln.vist()
     ln.setUsername('standard_user')
@@ -25,6 +28,7 @@ it("login with invalid input", ()=>{
     cy.contains('Epic sadface: Username and password do not match any user in this service')
 
 })
+
 it('login with valid input', ()=>{
     ln.vist()
     ln.setUsername('visual_user')
@@ -99,7 +103,7 @@ it('verify user can fill payment information', ()=>{
     Ck.setPostcode('10001')
     Ck.setContiune()
     Ck.expectSummary()
-    Ck.expectPayInfo
+    Ck.expectPayInfo()
     Ck.Finishbtn()
     
 })

@@ -1,7 +1,9 @@
 export default class Homepage{
 
     productHomepage(){
-        cy.get(".hrefch[href='prod.html?idp_=1']").click()
+        cy.get(".hrefch[href='prod.html?idp_=1']", { timeout: 15000 })
+          .should('be.visible')
+          .click()
         cy.wait(5000)
         cy.contains('Samsung galaxy s6')
         cy.get('.btn.btn-success.btn-lg').click()
