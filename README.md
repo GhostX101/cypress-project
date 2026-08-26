@@ -1,4 +1,4 @@
-# Cypress-E2E-Automation-Demoblaze & Saucedemo — Page Object Model (POM)
+# Cypress-E2E-Automation-Demoblaze & Saucedemo with Page Object Model (POM)
 
 An end-to-end test automation suite built with **Cypress**, using the **Page Object Model (POM)** design pattern to test two live demo e-commerce sites:
 
@@ -129,15 +129,15 @@ Keeping data in fixtures instead of hardcoding it in tests makes it easy to upda
 
 Each page/component (login, signup, cart, checkout, navbar, footer, etc.) is represented as its own class with methods for interacting with that page's elements. Benefits:
 
-- **Reusability** — the same page object methods are reused across multiple test cases
-- **Maintainability** — if a selector changes, it's updated in one place instead of across every test
-- **Readability** — tests read like plain steps (`login.setUsername(...)`, `login.submitClick()`) instead of raw Cypress selector chains
+- **Reusability**: The same page object methods are reused across multiple test cases
+- **Maintainability**: If a selector changes, it's updated in one place instead of across every test
+- **Readability**: Tests read like plain steps (`login.setUsername(...)`, `login.submitClick()`) instead of raw Cypress selector chains
 
 ---
 
 ## 📌 Notes / Known Limitations
 
-- Some tests currently reference methods without invoking them (e.g. calling `HP.productList` instead of `HP.productList()`) — worth a pass to confirm all page object methods are actually being called where intended.
+- Some tests currently reference methods without invoking them (e.g. calling `HP.productList` instead of `HP.productList()  worth a pass to confirm all page object methods are actually being called where intended.
 - A couple of test descriptions (e.g. "verify user can signup with special characters" vs. "verify user cannot signup with special characters") assert opposite outcomes back to back — may be worth double-checking expected behavior on DemoBlaze's signup validation.
 
 ---
@@ -155,4 +155,4 @@ Each page/component (login, signup, cart, checkout, navbar, footer, etc.) is rep
 ## 👤 Author
 
 **GhostX101**
-Capstone project — Cypress test automation with Page Object Model
+Capstone project: Cypress test automation with Page Object Model
